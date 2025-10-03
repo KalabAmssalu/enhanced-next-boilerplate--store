@@ -5,7 +5,7 @@
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "files": [
     "plugins",
     "templates",

@@ -1,0 +1,39 @@
+{
+  "name": "@repo/shared-configs",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./eslint": "./configs/eslint.js",
+    "./eslint-react": "./configs/eslint-react.js",
+    "./eslint-nextjs": "./configs/eslint-nextjs.js",
+    "./typescript": "./configs/typescript.json",
+    "./tailwind": "./configs/tailwind.js",
+    "./prettier": "./configs/prettier.json",
+    "./jest": "./configs/jest.config.js",
+    "./playwright": "./configs/playwright.config.js"
+  },
+  "files": [
+    "dist",
+    "configs"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
+
+

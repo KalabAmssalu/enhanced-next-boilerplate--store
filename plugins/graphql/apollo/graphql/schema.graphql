@@ -732,3 +732,5 @@ type SecurityAlert {
   timestamp: Date!
   resolved: Boolean!
 }
+
+

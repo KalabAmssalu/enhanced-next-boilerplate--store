@@ -29,3 +29,4 @@ async function demonstrateLogger() {
 
 // Run the demonstration
 demonstrateLogger().catch(console.error);
+

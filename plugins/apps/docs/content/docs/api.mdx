@@ -1,0 +1,168 @@
+# API Reference
+
+This section provides comprehensive documentation for the Enterprise API.
+
+## Authentication
+
+All API requests require authentication. Include your API key in the request headers:
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     https://api.enterprise.com/v1/users
+```
+
+### Getting an API Key
+
+1. Sign up for an account
+2. Navigate to your dashboard
+3. Go to API Keys section
+4. Generate a new key
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.enterprise.com/v1
+```
+
+## Endpoints
+
+### Users
+
+#### Get Users
+
+```bash
+GET /users
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| page | integer | Page number (default: 1) |
+| limit | integer | Items per page (default: 10) |
+| search | string | Search query |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "1",
+      "email": "user@example.com",
+      "name": "John Doe",
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 100,
+    "totalPages": 10
+  }
+}
+```
+
+#### Create User
+
+```bash
+POST /users
+```
+
+**Request Body:**
+
+```json
+{
+  "email": "user@example.com",
+  "name": "John Doe",
+  "password": "securepassword"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "1",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+}
+```
+
+### Files
+
+#### Upload File
+
+```bash
+POST /files/upload
+```
+
+**Request Body:**
+
+Form data with file field.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "file_123",
+    "url": "https://cdn.enterprise.com/files/file_123",
+    "filename": "document.pdf",
+    "size": 1024000,
+    "uploadedAt": "2024-01-01T00:00:00Z"
+  }
+}
+```
+
+## Error Handling
+
+All API errors follow a consistent format:
+
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "statusCode": 400
+}
+```
+
+### Common Error Codes
+
+| Code | Description |
+|------|-------------|
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 403 | Forbidden |
+| 404 | Not Found |
+| 422 | Validation Error |
+| 500 | Internal Server Error |
+
+## Rate Limiting
+
+API requests are rate limited to 1000 requests per hour per API key. Rate limit headers are included in responses:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640995200
+```
+
+## SDKs
+
+We provide official SDKs for popular programming languages:
+
+- [JavaScript/TypeScript](https://github.com/enterprise/js-sdk)
+- [Python](https://github.com/enterprise/python-sdk)
+- [Go](https://github.com/enterprise/go-sdk)
+- [PHP](https://github.com/enterprise/php-sdk)
+
+

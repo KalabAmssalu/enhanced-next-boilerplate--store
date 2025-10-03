@@ -1,0 +1,40 @@
+{
+  "entryPoints": ["src"],
+  "out": "docs/api",
+  "theme": "default",
+  "name": "API Documentation",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "readme": "README.md",
+  "categorizeByGroup": true,
+  "defaultCategory": "Other",
+  "categoryOrder": ["Core", "Components", "Hooks", "Utils", "Types", "Other"],
+  "sort": ["source-order"],
+  "kindSortOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Enum",
+    "Class",
+    "Interface",
+    "Type alias",
+    "Constructor",
+    "Variable",
+    "Function",
+    "Accessor"
+  ],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "searchInComments": true,
+  "cleanOutputDir": true,
+  "plugin": ["typedoc-plugin-markdown"],
+  "markdown": {
+    "format": "github",
+    "source": "src",
+    "output": "docs/api"
+  }
+}

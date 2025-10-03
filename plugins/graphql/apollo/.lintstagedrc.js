@@ -23,3 +23,5 @@ module.exports = {
   // All other files
   '*.{html,svg}': ['prettier --write'],
 };
+
+

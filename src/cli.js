@@ -6,6 +6,18 @@ const fs = require("fs");
 
 // Helper function to copy directories recursively
 function copyDir(src, dest) {
+  if (!fs.existsSync(src)) {
+    console.warn(`Warning: Source path ${src} does not exist`);
+    return;
+  }
+
+  const stat = fs.statSync(src);
+  if (!stat.isDirectory()) {
+    // If source is a file, copy it directly
+    fs.copyFileSync(src, dest);
+    return;
+  }
+
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest, { recursive: true });
   }
@@ -14,9 +26,9 @@ function copyDir(src, dest) {
   files.forEach((file) => {
     const srcFile = path.join(src, file);
     const destFile = path.join(dest, file);
-    const stat = fs.statSync(srcFile);
+    const fileStat = fs.statSync(srcFile);
 
-    if (stat.isDirectory()) {
+    if (fileStat.isDirectory()) {
       copyDir(srcFile, destFile);
     } else {
       fs.copyFileSync(srcFile, destFile);
@@ -101,7 +113,7 @@ if (command === "create") {
   console.log("Debug - template:", template);
 
   if (template === "enterprise-monorepo") {
-    // Add all enterprise plugins
+    // Add all enterprise plugins (will be overridden by template config if available)
     plugins.push(
       "turbo/default",
       "devcontainer/default",
@@ -151,6 +163,34 @@ if (command === "create") {
   // Get store path for template files
   const storePath = path.dirname(__filename);
 
+  // Override plugins with template configuration if available
+  if (template === "enterprise-monorepo") {
+    const templateConfigPath = path.join(
+      storePath,
+      "..",
+      "templates",
+      template,
+      "config.json"
+    );
+    if (fs.existsSync(templateConfigPath)) {
+      try {
+        const templateConfig = JSON.parse(
+          fs.readFileSync(templateConfigPath, "utf8")
+        );
+        if (templateConfig.plugins && Array.isArray(templateConfig.plugins)) {
+          // Clear existing plugins and use template plugins
+          plugins.length = 0;
+          plugins.push(...templateConfig.plugins);
+        }
+      } catch (error) {
+        console.warn(
+          `Warning: Could not parse template config for ${template}:`,
+          error.message
+        );
+      }
+    }
+  }
+
   // Create package.json based on template
   let packageJson;
 
@@ -181,6 +221,44 @@ if (command === "create") {
   }
 
   // Add dependencies based on plugins
+  plugins.forEach((plugin) => {
+    const pluginPath = path.join(storePath, "..", "plugins", plugin);
+    const configPath = path.join(pluginPath, "config.json");
+
+    if (fs.existsSync(configPath)) {
+      try {
+        const pluginConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+
+        // Add dependencies from plugin config
+        if (pluginConfig.dependencies) {
+          if (!packageJson.dependencies) packageJson.dependencies = {};
+          Object.assign(packageJson.dependencies, pluginConfig.dependencies);
+        }
+
+        // Add devDependencies from plugin config
+        if (pluginConfig.devDependencies) {
+          if (!packageJson.devDependencies) packageJson.devDependencies = {};
+          Object.assign(
+            packageJson.devDependencies,
+            pluginConfig.devDependencies
+          );
+        }
+
+        // Add scripts from plugin config
+        if (pluginConfig.scripts) {
+          if (!packageJson.scripts) packageJson.scripts = {};
+          Object.assign(packageJson.scripts, pluginConfig.scripts);
+        }
+      } catch (error) {
+        console.warn(
+          `Warning: Could not parse config.json for plugin ${plugin}:`,
+          error.message
+        );
+      }
+    }
+  });
+
+  // Legacy plugin handling (for backward compatibility)
   if (plugins.includes("logger/default")) {
     if (!packageJson.dependencies) packageJson.dependencies = {};
     packageJson.dependencies["@kalabamssalu/logger"] = "^1.0.0";
@@ -243,7 +321,88 @@ if (command === "create") {
   plugins.forEach((plugin) => {
     const pluginPath = path.join(storePath, "..", "plugins", plugin);
     if (fs.existsSync(pluginPath)) {
-      // Copy lib files
+      // Read plugin configuration
+      const configPath = path.join(pluginPath, "config.json");
+      let pluginConfig = null;
+
+      if (fs.existsSync(configPath)) {
+        try {
+          pluginConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+        } catch (error) {
+          console.warn(
+            `Warning: Could not parse config.json for plugin ${plugin}:`,
+            error.message
+          );
+        }
+      }
+
+      // Handle plugin configuration
+      if (pluginConfig) {
+        // Handle 'paths' configuration (for empty directories)
+        if (pluginConfig.paths && Array.isArray(pluginConfig.paths)) {
+          pluginConfig.paths.forEach((pathConfig) => {
+            const srcPath = path.join(pluginPath, pathConfig.from);
+            const destPath = path.join(projectPath, pathConfig.to);
+
+            if (fs.existsSync(srcPath)) {
+              copyDir(srcPath, destPath);
+            } else {
+              // Create empty directory if source doesn't exist
+              fs.mkdirSync(destPath, { recursive: true });
+            }
+          });
+        }
+
+        // Handle 'files' configuration (for specific files)
+        if (pluginConfig.files && Array.isArray(pluginConfig.files)) {
+          pluginConfig.files.forEach((fileConfig) => {
+            let srcPath, destPath;
+
+            // Handle both string format and object format
+            if (typeof fileConfig === "string") {
+              srcPath = fileConfig;
+              destPath = fileConfig;
+            } else if (
+              typeof fileConfig === "object" &&
+              fileConfig.src &&
+              fileConfig.dest
+            ) {
+              srcPath = fileConfig.src;
+              destPath = fileConfig.dest;
+            } else {
+              console.warn(
+                `Warning: Invalid file configuration in plugin ${plugin}:`,
+                fileConfig
+              );
+              return;
+            }
+
+            const srcFile = path.join(pluginPath, srcPath);
+            const destFile = path.join(projectPath, destPath);
+
+            // Create destination directory if it doesn't exist
+            const destDir = path.dirname(destFile);
+            fs.mkdirSync(destDir, { recursive: true });
+
+            if (fs.existsSync(srcFile)) {
+              const srcStat = fs.statSync(srcFile);
+              if (srcStat.isDirectory()) {
+                // If source is a directory, copy it recursively
+                copyDir(srcFile, destFile);
+              } else {
+                // If source is a file, copy it directly
+                fs.copyFileSync(srcFile, destFile);
+              }
+            } else {
+              console.warn(
+                `Warning: File ${srcPath} not found in plugin ${plugin}`
+              );
+            }
+          });
+        }
+      }
+
+      // Fallback: Copy lib files (for backward compatibility)
       const libPath = path.join(pluginPath, "lib");
       if (fs.existsSync(libPath)) {
         const destLibPath = path.join(projectPath, "lib");
@@ -257,26 +416,28 @@ if (command === "create") {
         });
       }
 
-      // Copy other plugin files (config files, etc.)
-      const pluginFiles = fs.readdirSync(pluginPath);
-      pluginFiles.forEach((file) => {
-        if (
-          file !== "lib" &&
-          file !== "config.json" &&
-          file !== "package.json"
-        ) {
-          const srcFile = path.join(pluginPath, file);
-          const destFile = path.join(projectPath, file);
-          const stat = fs.statSync(srcFile);
-          if (stat.isDirectory()) {
-            // Copy directory recursively
-            copyDir(srcFile, destFile);
-          } else {
-            // Copy file
-            fs.copyFileSync(srcFile, destFile);
+      // Fallback: Copy other plugin files (config files, etc.) - but skip if we already handled them via config
+      if (!pluginConfig || (!pluginConfig.paths && !pluginConfig.files)) {
+        const pluginFiles = fs.readdirSync(pluginPath);
+        pluginFiles.forEach((file) => {
+          if (
+            file !== "lib" &&
+            file !== "config.json" &&
+            file !== "package.json"
+          ) {
+            const srcFile = path.join(pluginPath, file);
+            const destFile = path.join(projectPath, file);
+            const stat = fs.statSync(srcFile);
+            if (stat.isDirectory()) {
+              // Copy directory recursively
+              copyDir(srcFile, destFile);
+            } else {
+              // Copy file
+              fs.copyFileSync(srcFile, destFile);
+            }
           }
-        }
-      });
+        });
+      }
     }
   });
 

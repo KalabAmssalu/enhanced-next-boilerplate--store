@@ -1,0 +1,106 @@
+# Components
+
+Our component library provides a comprehensive set of reusable UI components built with React and TypeScript.
+
+## Button
+
+The Button component is a versatile element for user interactions.
+
+```tsx
+import { Button } from '@repo/shared-ui';
+
+function MyComponent() {
+  return (
+    <div>
+      <Button>Primary Button</Button>
+      <Button variant="outline">Outline Button</Button>
+      <Button variant="ghost">Ghost Button</Button>
+    </div>
+  );
+}
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | 'default' \| 'outline' \| 'ghost' | 'default' | Button style variant |
+| size | 'sm' \| 'md' \| 'lg' | 'md' | Button size |
+| disabled | boolean | false | Whether the button is disabled |
+
+## Card
+
+The Card component provides a flexible container for content.
+
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from '@repo/shared-ui';
+
+function MyComponent() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Card content goes here.</p>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Input
+
+The Input component provides a styled text input field.
+
+```tsx
+import { Input } from '@repo/shared-ui';
+
+function MyComponent() {
+  return (
+    <Input
+      type="text"
+      placeholder="Enter your text"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}
+```
+
+## Dialog
+
+The Dialog component provides a modal dialog for user interactions.
+
+```tsx
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@repo/shared-ui';
+
+function MyComponent() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Dialog Title</DialogTitle>
+        </DialogHeader>
+        <p>Dialog content goes here.</p>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## Best Practices
+
+1. **Consistency**: Use the same component variants throughout your application
+2. **Accessibility**: All components include proper ARIA attributes
+3. **Theming**: Components support both light and dark themes
+4. **Type Safety**: All components are fully typed with TypeScript
+
+## Customization
+
+Components can be customized using CSS variables or by extending the base styles. See the [theming guide](/docs/theming) for more information.
+
+

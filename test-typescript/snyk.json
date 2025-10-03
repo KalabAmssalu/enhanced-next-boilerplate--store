@@ -1,0 +1,12 @@
+{
+  "language-settings": {
+    "javascript": {
+      "dev-dependencies": true
+    }
+  },
+  "ignore": {
+    "SNYK-JS-*": []
+  },
+  "patch": {},
+  "policy": "snyk-policy.json"
+}

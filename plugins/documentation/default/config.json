@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Documentation & Developer Experience",
+  "description": "Comprehensive documentation generation and developer tools",
+  "files": [
+    "typedoc.json",
+    "docusaurus.config.js",
+    "docs/README.md",
+    "docs/API.md",
+    "docs/ARCHITECTURE.md",
+    "docs/CONTRIBUTING.md",
+    "docs/DEPLOYMENT.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PERFORMANCE.md",
+    "docs/SECURITY.md",
+    "docs/TESTING.md",
+    "docs/CHANGELOG.md",
+    "docs/CODE_OF_CONDUCT.md",
+    "docs/PRIVACY_POLICY.md",
+    "docs/TERMS_OF_SERVICE.md",
+    "scripts/generate-docs.js",
+    "scripts/update-changelog.js"
+  ],
+  "dependencies": {
+    "typedoc": "^0.25.0",
+    "typedoc-plugin-markdown": "^3.15.0",
+    "docusaurus": "^3.0.0",
+    "@docusaurus/preset-classic": "^3.0.0",
+    "@docusaurus/theme-mermaid": "^3.0.0",
+    "mermaid": "^10.6.0",
+    "conventional-changelog": "^4.0.0",
+    "conventional-changelog-cli": "^2.2.0",
+    "compodoc": "^1.1.0",
+    "jsdoc": "^4.0.0",
+    "eslint-plugin-jsdoc": "^46.0.0"
+  },
+  "scripts": {
+    "docs:build": "docusaurus build",
+    "docs:start": "docusaurus start",
+    "docs:deploy": "docusaurus deploy",
+    "docs:api": "typedoc --out docs/api src",
+    "docs:generate": "node scripts/generate-docs.js",
+    "docs:changelog": "node scripts/update-changelog.js",
+    "docs:serve": "docusaurus serve"
+  }
+}

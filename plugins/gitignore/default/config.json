@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+    "name": "Default gitignore",
+    "description": "Default gitignore configuration",
+    "paths": [
+        {
+            "from": "default.gitignore",
+            "to": ".gitignore"
+        }
+    ]
+}

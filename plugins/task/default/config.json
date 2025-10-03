@@ -1,0 +1,17 @@
+{
+  "name": "task",
+  "description": "Add @KalabAmssalu/task for task progress tracking",
+  "dependencies": {
+    "@KalabAmssalu/task": "^1.0.0"
+  },
+  "devDependencies": {},
+  "files": [
+    {
+      "src": "lib/task-manager.ts",
+      "dest": "lib/task-manager.ts"
+    }
+  ],
+  "scripts": {
+    "task:example": "tsx lib/task-example.ts"
+  }
+}

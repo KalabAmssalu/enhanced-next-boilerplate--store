@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Security",
+  "description": "Security scanning and vulnerability management",
+  "files": ["audit-ci.json", "snyk.json", "security-scan.yml"],
+  "dependencies": {
+    "audit-ci": "^6.0.0",
+    "npm-audit-resolver": "^4.0.0",
+    "snyk": "^1.1248.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "scripts": {
+    "security:audit": "audit-ci --config audit-ci.json",
+    "security:snyk": "snyk test",
+    "security:scan": "npm run security:audit && npm run security:snyk",
+    "prepare": "husky install"
+  }
+}

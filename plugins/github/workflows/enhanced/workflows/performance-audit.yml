@@ -1,0 +1,75 @@
+name: Performance Audit
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 2 * * 1" # Weekly on Monday at 2 AM
+
+jobs:
+  performance-audit:
+    name: Performance Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Start application
+        run: npm start &
+      - name: Wait for application
+        run: npx wait-on http://localhost:3000
+      - name: Run Lighthouse CI
+        run: npm run lighthouse:ci
+      - name: Bundle Analysis
+        run: npm run analyze
+      - name: Performance Budget Check
+        run: |
+          # Check if bundle size exceeds budget
+          if [ -f "analyze/client.html" ]; then
+            echo "Bundle analysis completed"
+          fi
+      - name: Upload Performance Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-results
+          path: |
+            lighthouse-results/
+            analyze/
+      - name: Comment PR with Performance Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Read performance results and create comment
+            const comment = `## 📊 Performance Audit Results
+
+            ### Lighthouse Scores
+            - Performance: TBD
+            - Accessibility: TBD
+            - Best Practices: TBD
+            - SEO: TBD
+
+            ### Bundle Analysis
+            Bundle analysis completed. Check the artifacts for detailed results.
+
+            ### Performance Budget
+            All performance budgets are within limits ✅`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

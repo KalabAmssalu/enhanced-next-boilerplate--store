@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/template.d.json",
+  "name": "Empty monorepo",
+  "description": "An empty monorepo with basic modern tooling",
+  "plugins": [
+    "turbo/default",
+    "apps/empty",
+    "packages/empty",
+    "vscode/default",
+    "gitignore/default",
+    "license/default",
+    "package/default",
+    "security/default",
+    "testing/enhanced",
+    "monitoring/default",
+    "performance/default"
+  ]
+}

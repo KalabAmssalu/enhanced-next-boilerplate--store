@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Infrastructure as Code",
+  "description": "Infrastructure as Code with Terraform, Docker, and Kubernetes",
+  "files": [
+    "terraform/main.tf",
+    "terraform/variables.tf",
+    "terraform/outputs.tf",
+    "terraform/terraform.tfvars.example",
+    "docker/Dockerfile",
+    "docker/docker-compose.yml",
+    "docker/docker-compose.prod.yml",
+    "k8s/namespace.yaml",
+    "k8s/deployment.yaml",
+    "k8s/service.yaml",
+    "k8s/ingress.yaml",
+    "k8s/configmap.yaml",
+    "k8s/secret.yaml",
+    "helm/Chart.yaml",
+    "helm/values.yaml",
+    "helm/templates/deployment.yaml",
+    "helm/templates/service.yaml",
+    "helm/templates/ingress.yaml",
+    "scripts/deploy.sh",
+    "scripts/terraform-init.sh",
+    "scripts/k8s-deploy.sh"
+  ],
+  "dependencies": {
+    "terraform": "^1.6.0",
+    "docker": "^24.0.0",
+    "kubectl": "^1.28.0",
+    "helm": "^3.13.0"
+  },
+  "scripts": {
+    "docker:build": "docker build -t next-boilerplate .",
+    "docker:run": "docker-compose up",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up",
+    "terraform:init": "cd terraform && terraform init",
+    "terraform:plan": "cd terraform && terraform plan",
+    "terraform:apply": "cd terraform && terraform apply",
+    "k8s:deploy": "kubectl apply -f k8s/",
+    "k8s:delete": "kubectl delete -f k8s/",
+    "helm:install": "helm install next-boilerplate helm/",
+    "helm:upgrade": "helm upgrade next-boilerplate helm/",
+    "deploy:staging": "bash scripts/deploy.sh staging",
+    "deploy:prod": "bash scripts/deploy.sh production"
+  }
+}

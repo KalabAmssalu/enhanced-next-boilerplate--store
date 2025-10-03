@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Monitoring & Observability",
+  "description": "Error tracking, performance monitoring, and observability tools",
+  "files": [
+    "sentry.client.config.ts",
+    "sentry.server.config.ts",
+    "sentry.edge.config.ts",
+    "next.config.js",
+    "lib/analytics.ts",
+    "lib/logger.ts",
+    "lib/metrics.ts",
+    "middleware.ts"
+  ],
+  "dependencies": {
+    "@sentry/nextjs": "^7.80.0",
+    "@sentry/profiling-node": "^1.0.0",
+    "nextjs-toploader": "^1.7.0",
+    "web-vitals": "^3.5.0",
+    "pino": "^8.16.0",
+    "pino-pretty": "^10.2.0",
+    "@vercel/analytics": "^1.1.0",
+    "posthog-js": "^1.100.0"
+  },
+  "scripts": {
+    "sentry:sourcemaps": "sentry-cli releases files upload-sourcemaps .next",
+    "sentry:release": "sentry-cli releases new $npm_package_version"
+  }
+}

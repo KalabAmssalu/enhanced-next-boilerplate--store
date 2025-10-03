@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+    "name": "Default turbo configuration",
+    "description": "Basic steps configuration for turbo (build, lint, dev, ...)",
+    "paths": [
+        {
+            "from": "turbo.json",
+            "to": "turbo.json"
+        }
+    ]
+}

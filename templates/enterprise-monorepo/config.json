@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/template.d.json",
+  "name": "Enterprise monorepo",
+  "description": "Enterprise-grade monorepo with all modern tooling, security, monitoring, and infrastructure",
+  "plugins": [
+    "turbo/default",
+    "devcontainer/default",
+    "apps/empty",
+    "packages/empty",
+    "conventional-commits/default",
+    "vscode/default",
+    "github/workflows/default",
+    "github/issue-template/default",
+    "gitignore/default",
+    "releaserc/default",
+    "license/default",
+    "makefile/default",
+    "renovate/default",
+    "package/full-monorepo",
+    "security/default",
+    "testing/enhanced",
+    "monitoring/default",
+    "performance/default",
+    "documentation/default",
+    "infrastructure/default"
+  ]
+}

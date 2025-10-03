@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+    "name": "Root package.json for the full monorepo",
+    "description": "Contain the full monorepo configuration and some scripts to begin with",
+    "paths": [
+        {
+            "from": "package.json",
+            "to": "package.json"
+        }
+    ]
+}

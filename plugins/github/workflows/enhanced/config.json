@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Enhanced GitHub Workflows",
+  "description": "Enhanced CI/CD workflows with security, performance, and deployment automation",
+  "files": [
+    "workflows/security-scan.yml",
+    "workflows/performance-audit.yml",
+    "workflows/visual-regression.yml",
+    "workflows/deploy-staging.yml",
+    "workflows/deploy-production.yml",
+    "workflows/dependency-update.yml",
+    "workflows/code-quality.yml"
+  ]
+}

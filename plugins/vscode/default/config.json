@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+    "name": "Default vscode configuration",
+    "description": "Suggested vscode configuration with format on save",
+    "paths": [
+        {
+            "from": ".vscode",
+            "to": ".vscode"
+        }
+    ]
+}

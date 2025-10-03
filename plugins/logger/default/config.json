@@ -1,0 +1,17 @@
+{
+  "name": "logger",
+  "description": "Add @KalabAmssalu/logger for enhanced logging capabilities",
+  "dependencies": {
+    "@KalabAmssalu/logger": "^1.0.0"
+  },
+  "devDependencies": {},
+  "files": [
+    {
+      "src": "lib/logger.ts",
+      "dest": "lib/logger.ts"
+    }
+  ],
+  "scripts": {
+    "log:example": "tsx lib/logger-example.ts"
+  }
+}

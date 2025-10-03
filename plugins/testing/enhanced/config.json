@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Enhanced Testing",
+  "description": "Modern testing infrastructure with E2E, visual regression, and component testing",
+  "files": [
+    "playwright.config.ts",
+    "vitest.config.ts",
+    "storybook/main.ts",
+    "storybook/preview.ts",
+    "test-setup.ts",
+    "msw/handlers.ts",
+    "msw/browser.ts",
+    "msw/server.ts"
+  ],
+  "dependencies": {
+    "@playwright/test": "^1.40.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/user-event": "^14.5.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "jsdom": "^23.0.0",
+    "msw": "^2.0.0",
+    "storybook": "^7.5.0",
+    "@storybook/react": "^7.5.0",
+    "@storybook/react-vite": "^7.5.0",
+    "@storybook/addon-essentials": "^7.5.0",
+    "@storybook/addon-interactions": "^7.5.0",
+    "@storybook/addon-a11y": "^7.5.0",
+    "@storybook/test": "^7.5.0",
+    "chromatic": "^7.6.0"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:visual": "chromatic --exit-zero-on-changes",
+    "test:storybook": "storybook dev -p 6006",
+    "test:build-storybook": "storybook build",
+    "test:all": "npm run test && npm run test:e2e"
+  }
+}

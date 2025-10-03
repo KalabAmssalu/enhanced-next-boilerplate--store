@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+    "name": "Default devcontainer configuration",
+    "description": "Open VS Code in a linux container",
+    "paths": [
+        {
+            "from": ".devcontainer",
+            "to": ".devcontainer"
+        }
+    ]
+}

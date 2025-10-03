@@ -1,0 +1,18 @@
+{
+  "name": "logging-enhanced",
+  "description": "Add enhanced logging and task tracking with @KalabAmssalu/logger and @KalabAmssalu/task",
+  "dependencies": {
+    "@KalabAmssalu/logger": "^1.0.0",
+    "@KalabAmssalu/task": "^1.0.0"
+  },
+  "devDependencies": {},
+  "files": [
+    {
+      "src": "lib/enhanced-logging.ts",
+      "dest": "lib/enhanced-logging.ts"
+    }
+  ],
+  "scripts": {
+    "logging:demo": "tsx lib/logging-demo.ts"
+  }
+}

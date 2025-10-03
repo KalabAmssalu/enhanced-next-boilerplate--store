@@ -1,0 +1,95 @@
+# API Reference
+
+This section provides detailed documentation for the shared libraries and utilities.
+
+## Shared Lib Package
+
+The `@repo/shared-lib` package provides common utilities and helper functions.
+
+### Validation
+
+```tsx
+import { validateEmail, validatePassword, validatePhone } from '@repo/shared-lib';
+
+const isValidEmail = validateEmail('user@example.com');
+const isValidPassword = validatePassword('password123');
+const isValidPhone = validatePhone('+1234567890');
+```
+
+### Date Utilities
+
+```tsx
+import { formatDate, formatRelativeTime } from '@repo/shared-lib';
+
+const formatted = formatDate(new Date(), 'yyyy-MM-dd');
+const relative = formatRelativeTime(new Date(Date.now() - 1000 * 60 * 5));
+```
+
+### String Utilities
+
+```tsx
+import { capitalize, slugify, truncate } from '@repo/shared-lib';
+
+const capitalized = capitalize('hello world');
+const slug = slugify('Hello World!');
+const truncated = truncate('Long text here', 10);
+```
+
+### Array Utilities
+
+```tsx
+import { chunk, unique, groupBy } from '@repo/shared-lib';
+
+const chunks = chunk([1, 2, 3, 4, 5], 2);
+const uniqueItems = unique([1, 2, 2, 3, 3, 4]);
+const grouped = groupBy(users, user => user.role);
+```
+
+### Object Utilities
+
+```tsx
+import { pick, omit, deepClone } from '@repo/shared-lib';
+
+const picked = pick(user, ['name', 'email']);
+const omitted = omit(user, ['password', 'secret']);
+const cloned = deepClone(complexObject);
+```
+
+### Storage Utilities
+
+```tsx
+import { getStorageItem, setStorageItem, removeStorageItem } from '@repo/shared-lib';
+
+setStorageItem('theme', 'dark');
+const theme = getStorageItem('theme', 'light');
+removeStorageItem('theme');
+```
+
+## Constants
+
+The package also exports useful constants:
+
+```tsx
+import { HTTP_STATUS, REGEX_PATTERNS, DATE_FORMATS } from '@repo/shared-lib';
+
+// HTTP status codes
+const isOk = status === HTTP_STATUS.OK;
+
+// Regex patterns
+const isValidEmail = REGEX_PATTERNS.EMAIL.test(email);
+
+// Date formats
+const formatted = formatDate(date, DATE_FORMATS.ISO);
+```
+
+## Types
+
+Common TypeScript types are also available:
+
+```tsx
+import { ApiResponse, PaginatedResponse, LoadingState } from '@repo/shared-lib';
+
+const response: ApiResponse<User> = await fetchUser();
+const paginated: PaginatedResponse<User> = await fetchUsers();
+const state: LoadingState = { isLoading: true };
+```

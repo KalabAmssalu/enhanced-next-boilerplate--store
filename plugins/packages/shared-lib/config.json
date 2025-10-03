@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Shared Lib Package",
+  "description": "Shared utility libraries and common functions",
+  "files": [
+    "packages/shared-lib/package.json",
+    "packages/shared-lib/tsconfig.json",
+    "packages/shared-lib/src/index.ts",
+    "packages/shared-lib/src/utils/validation.ts",
+    "packages/shared-lib/src/utils/date.ts",
+    "packages/shared-lib/src/utils/string.ts",
+    "packages/shared-lib/src/utils/array.ts",
+    "packages/shared-lib/src/utils/object.ts",
+    "packages/shared-lib/src/utils/url.ts",
+    "packages/shared-lib/src/utils/storage.ts",
+    "packages/shared-lib/src/utils/crypto.ts",
+    "packages/shared-lib/src/constants/index.ts",
+    "packages/shared-lib/src/types/index.ts",
+    "packages/shared-lib/README.md"
+  ],
+  "dependencies": {
+    "zod": "^3.22.0",
+    "date-fns": "^2.30.0",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit"
+  }
+}

@@ -1,0 +1,103 @@
+overwrite: true
+schema: 
+  - "graphql/schema.graphql"
+  - "http://localhost:4000/graphql"  # Remote schema (optional)
+documents: 
+  - "lib/**/*.ts"
+  - "hooks/**/*.ts"
+  - "graphql/**/*.ts"
+  - "!**/*.d.ts"
+generates:
+  # TypeScript types
+  lib/generated/types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+    config:
+      avoidOptionals: true
+      immutableTypes: true
+      maybeValue: T | null | undefined
+      inputMaybeValue: T | null | undefined
+      enumsAsTypes: true
+      scalars:
+        Date: string
+        JSON: any
+        Upload: File
+      namingConvention:
+        typeNames: "pascal-case#pascalCase"
+        transformUnderscore: true
+      skipTypename: false
+      useTypeImports: true
+
+  # React Apollo hooks
+  lib/generated/hooks.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
+      withComponent: false
+      withHOC: false
+      apolloReactHooksImportFrom: "@apollo/client"
+      avoidOptionals: true
+      immutableTypes: true
+      maybeValue: T | null | undefined
+      inputMaybeValue: T | null | undefined
+      enumsAsTypes: true
+      scalars:
+        Date: string
+        JSON: any
+        Upload: File
+      namingConvention:
+        typeNames: "pascal-case#pascalCase"
+        transformUnderscore: true
+      skipTypename: false
+      useTypeImports: true
+
+  # GraphQL files as modules
+  lib/generated/graphql.ts:
+    plugins:
+      - "typescript-graphql-files-modules"
+    config:
+      modulePathPrefix: "../"
+      relativeToCwd: true
+
+  # Introspection schema
+  lib/generated/introspection.json:
+    plugins:
+      - "introspection"
+    config:
+      minify: true
+
+  # Fragment matcher for Apollo Client
+  lib/generated/fragment-matcher.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+    config:
+      apolloClientVersion: 3
+      apolloClientImportFrom: "@apollo/client"
+      useTypeImports: true
+      avoidOptionals: true
+      immutableTypes: true
+      maybeValue: T | null | undefined
+      inputMaybeValue: T | null | undefined
+      enumsAsTypes: true
+      scalars:
+        Date: string
+        JSON: any
+        Upload: File
+      namingConvention:
+        typeNames: "pascal-case#pascalCase"
+        transformUnderscore: true
+      skipTypename: false
+      useTypeImports: true
+    additionalData: |
+      import { InMemoryCache } from '@apollo/client';
+      
+      export const fragmentMatcher = new InMemoryCache({
+        possibleTypes: {
+          // Add your union/interface types here
+        }
+      });

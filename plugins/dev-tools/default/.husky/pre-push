@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run full linting
+echo "🔍 Running full linting..."
+npm run lint:check
+
+# Run type checking
+echo "🔍 Running type checking..."
+npm run type-check
+
+# Run format checking
+echo "🔍 Checking code formatting..."
+npm run format:check
+
+# Run tests (if available)
+if [ -f "package.json" ] && grep -q '"test"' package.json; then
+  echo "🧪 Running tests..."
+  npm test
+fi
+
+# Check for uncommitted changes
+if ! git diff --quiet; then
+  echo "❌ Uncommitted changes detected. Please commit all changes."
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed!"

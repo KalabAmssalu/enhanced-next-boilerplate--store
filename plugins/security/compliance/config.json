@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Security Compliance",
+  "description": "Advanced security compliance with OWASP ZAP and dependency checking",
+  "files": [
+    "security/owasp-zap.yml",
+    "security/dependency-check.yml",
+    "lib/security-audit.ts",
+    "lib/vulnerability-scanner.ts"
+  ],
+  "dependencies": {
+    "@owasp/dependency-check": "^8.0.0",
+    "zaproxy": "^2.12.0"
+  },
+  "scripts": {
+    "security:audit": "npm run security:dependency-check && npm run security:zap-scan",
+    "security:dependency-check": "dependency-check --project 'My Project' --scan . --format JSON --out security-report.json",
+    "security:zap-scan": "zap-baseline.py -t http://localhost:3000 -J zap-report.json",
+    "security:compliance": "tsx lib/security-audit.ts"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "API OpenAPI",
+  "description": "OpenAPI specification and Swagger UI for API documentation",
+  "files": [
+    "api/openapi.yaml",
+    "api/swagger-ui.html",
+    "lib/api-client.ts",
+    "lib/api-types.ts",
+    "lib/swagger-setup.ts"
+  ],
+  "dependencies": {
+    "swagger-ui-express": "^5.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "openapi-typescript": "^6.7.0",
+    "axios": "^1.6.0"
+  },
+  "scripts": {
+    "api:docs": "swagger-ui-serve api/openapi.yaml",
+    "api:generate-types": "openapi-typescript api/openapi.yaml -o lib/api-types.ts",
+    "api:validate": "swagger-codegen validate -i api/openapi.yaml",
+    "api:serve": "tsx lib/swagger-setup.ts"
+  }
+}

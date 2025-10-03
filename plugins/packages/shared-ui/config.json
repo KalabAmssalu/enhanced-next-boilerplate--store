@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Shared UI Package",
+  "description": "Shared UI components package for the monorepo",
+  "files": [
+    "packages/shared-ui/package.json",
+    "packages/shared-ui/tsconfig.json",
+    "packages/shared-ui/src/index.ts",
+    "packages/shared-ui/src/components/Button.tsx",
+    "packages/shared-ui/src/components/Card.tsx",
+    "packages/shared-ui/src/components/Input.tsx",
+    "packages/shared-ui/src/components/Dialog.tsx",
+    "packages/shared-ui/src/components/Modal.tsx",
+    "packages/shared-ui/src/components/Loading.tsx",
+    "packages/shared-ui/src/components/ErrorBoundary.tsx",
+    "packages/shared-ui/src/hooks/useTheme.ts",
+    "packages/shared-ui/src/hooks/useLocalStorage.ts",
+    "packages/shared-ui/src/hooks/useDebounce.ts",
+    "packages/shared-ui/src/utils/cn.ts",
+    "packages/shared-ui/src/utils/format.ts",
+    "packages/shared-ui/src/types/index.ts",
+    "packages/shared-ui/README.md"
+  ],
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0",
+    "lucide-react": "^0.292.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  }
+}

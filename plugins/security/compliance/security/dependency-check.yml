@@ -1,0 +1,33 @@
+# OWASP Dependency Check Configuration
+dependency-check:
+  version: "8.0.0"
+
+  scan:
+    project: "My Project"
+    path: "."
+    formats: ["JSON", "HTML", "XML"]
+    output: "security-report"
+
+  suppression:
+    file: "security-suppressions.xml"
+    enabled: true
+
+  database:
+    type: "h2"
+    connection: "jdbc:h2:file:./dependency-check-db"
+
+  analyzers:
+    - "central"
+    - "npm"
+    - "nodejs"
+    - "retirejs"
+    - "nsp"
+    - "auditjs"
+
+  failOnCVSS: 7.0
+  failOnError: false
+
+  advanced:
+    enableExperimental: true
+    enableRetired: true
+    enableNexus: false

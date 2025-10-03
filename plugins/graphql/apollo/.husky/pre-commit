@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged
+npx lint-staged
+
+# Run GraphQL codegen to ensure types are up to date
+echo "🔍 Running GraphQL codegen..."
+npm run graphql:codegen
+
+# Validate GraphQL schema
+echo "🔍 Validating GraphQL schema..."
+npm run graphql:validate

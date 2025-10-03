@@ -1,0 +1,63 @@
+# Getting Started
+
+Welcome to the monorepo documentation! This guide will help you get up and running quickly.
+
+## What is this monorepo?
+
+This monorepo contains:
+
+- **Shared UI Package** - Reusable React components
+- **Shared Configs Package** - ESLint, TypeScript, Tailwind configurations
+- **Shared Lib Package** - Common utilities and helper functions
+- **Web App** - Main Next.js application
+- **Docs App** - This documentation website
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- Node.js 18+ installed
+- npm or yarn package manager
+- Git for version control
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd monorepo
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development servers:
+   ```bash
+   # Start web app
+   npm run dev --workspace=@repo/web
+
+   # Start docs app
+   npm run dev --workspace=@repo/docs
+   ```
+
+## Project Structure
+
+```
+monorepo/
+├── packages/
+│   ├── shared-ui/          # Shared UI components
+│   ├── shared-configs/     # Shared configurations
+│   └── shared-lib/         # Shared utilities
+├── apps/
+│   ├── web/               # Main web application
+│   └── docs/              # Documentation website
+└── package.json           # Root package.json
+```
+
+## Next Steps
+
+- [Learn about components](/docs/components)
+- [Explore the API](/docs/api)
+- [Check out the packages](/docs/packages)

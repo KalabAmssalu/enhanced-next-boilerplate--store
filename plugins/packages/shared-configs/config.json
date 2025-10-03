@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Shared Configs Package",
+  "description": "Shared configuration files for ESLint, TypeScript, Tailwind, and other tools",
+  "files": [
+    "packages/shared-configs/package.json",
+    "packages/shared-configs/tsconfig.json",
+    "packages/shared-configs/src/index.ts",
+    "packages/shared-configs/configs/eslint.js",
+    "packages/shared-configs/configs/eslint-react.js",
+    "packages/shared-configs/configs/eslint-nextjs.js",
+    "packages/shared-configs/configs/typescript.json",
+    "packages/shared-configs/configs/tailwind.js",
+    "packages/shared-configs/configs/prettier.json",
+    "packages/shared-configs/configs/jest.config.js",
+    "packages/shared-configs/configs/playwright.config.js",
+    "packages/shared-configs/README.md"
+  ],
+  "dependencies": {
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit"
+  }
+}

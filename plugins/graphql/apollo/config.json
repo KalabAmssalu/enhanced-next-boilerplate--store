@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "GraphQL with Apollo Client",
+  "description": "Integrates Apollo Client for GraphQL with caching, subscriptions, and advanced features",
+  "files": [
+    "lib/apollo-client.ts",
+    "lib/graphql-queries.ts",
+    "lib/graphql-mutations.ts",
+    "lib/graphql-subscriptions.ts",
+    "lib/graphql-cache.ts",
+    "lib/graphql-setup.ts",
+    "graphql/schema.graphql",
+    "graphql/fragments.ts",
+    "hooks/use-graphql.ts",
+    "hooks/use-subscription.ts",
+    "codegen.yml",
+    "README.md"
+  ],
+  "dependencies": {
+    "@apollo/client": "^3.8.0",
+    "graphql": "^16.8.0",
+    "graphql-tag": "^2.12.6",
+    "@apollo/experimental-nextjs-app-support": "^0.10.0",
+    "zen-observable-ts": "^1.2.0",
+    "@KalabAmssalu/logger": "^1.0.0",
+    "@KalabAmssalu/task": "^1.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.0",
+    "@graphql-codegen/typescript-operations": "^4.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.0.0",
+    "@graphql-codegen/typescript-graphql-files-modules": "^4.0.0",
+    "@graphql-codegen/introspection": "^4.0.0",
+    "eslint-plugin-graphql": "^4.0.0"
+  },
+  "scripts": {
+    "graphql:codegen": "graphql-codegen --config codegen.yml",
+    "graphql:codegen:watch": "graphql-codegen --config codegen.yml --watch",
+    "graphql:validate": "tsx lib/graphql-setup.ts --validate",
+    "graphql:setup": "tsx lib/graphql-setup.ts"
+  }
+}

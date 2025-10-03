@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rharkor/next-boilerplate/dev/packages/cli-helpers/schemas/plugin.d.json",
+  "name": "Advanced Observability",
+  "description": "Advanced observability with OpenTelemetry, distributed tracing, and telemetry",
+  "files": [
+    "lib/telemetry.ts",
+    "lib/tracing.ts",
+    "lib/metrics.ts",
+    "lib/observability-setup.ts",
+    "middleware/telemetry.ts"
+  ],
+  "dependencies": {
+    "@opentelemetry/api": "^1.7.0",
+    "@opentelemetry/sdk-node": "^0.45.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.40.3",
+    "@opentelemetry/exporter-jaeger": "^1.18.1",
+    "@opentelemetry/exporter-prometheus": "^0.45.1",
+    "@opentelemetry/instrumentation-http": "^0.45.1",
+    "@opentelemetry/instrumentation-express": "^0.34.0",
+    "@opentelemetry/instrumentation-fs": "^0.10.0",
+    "prom-client": "^15.0.0"
+  },
+  "scripts": {
+    "telemetry:start": "tsx lib/observability-setup.ts",
+    "telemetry:metrics": "tsx lib/metrics.ts",
+    "telemetry:trace": "tsx lib/tracing.ts"
+  }
+}

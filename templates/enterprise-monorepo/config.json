@@ -5,8 +5,6 @@
   "plugins": [
     "turbo/default",
     "devcontainer/default",
-    "apps/empty",
-    "packages/empty",
     "conventional-commits/default",
     "vscode/default",
     "github/workflows/default",
@@ -23,6 +21,21 @@
     "performance/default",
     "documentation/default",
     "infrastructure/default",
-    "logging-enhanced/default"
+    "logging-enhanced/default",
+    "security/compliance",
+    "api/openapi",
+    "observability/advanced",
+    "design-system/default",
+    "state-management/default",
+    "i18n/default",
+    "pwa/default",
+    "ai-integration/default",
+    "analytics/business",
+    "dev-tools/default",
+    "packages/shared-ui",
+    "packages/shared-configs",
+    "packages/shared-lib",
+    "apps/web",
+    "apps/docs"
   ]
 }

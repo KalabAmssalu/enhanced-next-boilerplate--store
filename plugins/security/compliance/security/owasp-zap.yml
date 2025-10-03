@@ -1,0 +1,41 @@
+# OWASP ZAP Security Configuration
+zap:
+  version: "2.12.0"
+  rules:
+    - id: "xss"
+      name: "Cross-Site Scripting"
+      severity: "HIGH"
+      enabled: true
+    - id: "sql-injection"
+      name: "SQL Injection"
+      severity: "HIGH"
+      enabled: true
+    - id: "csrf"
+      name: "Cross-Site Request Forgery"
+      severity: "MEDIUM"
+      enabled: true
+    - id: "insecure-headers"
+      name: "Insecure HTTP Headers"
+      severity: "MEDIUM"
+      enabled: true
+    - id: "broken-auth"
+      name: "Broken Authentication"
+      severity: "HIGH"
+      enabled: true
+
+scan:
+  target: "http://localhost:3000"
+  context: "default"
+  policy: "API-scan-minimal"
+  output:
+    format: "JSON"
+    file: "zap-report.json"
+
+  spider:
+    maxDepth: 5
+    maxChildren: 100
+    maxDuration: 10
+
+  activeScan:
+    maxDuration: 30
+    delay: 1000

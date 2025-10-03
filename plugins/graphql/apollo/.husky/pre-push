@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run full linting
+echo "🔍 Running full linting..."
+npm run lint
+
+# Run type checking
+echo "🔍 Running type checking..."
+npx tsc --noEmit
+
+# Run GraphQL validation
+echo "🔍 Validating GraphQL setup..."
+npm run graphql:validate
+
+# Run tests (if available)
+if [ -f "package.json" ] && grep -q '"test"' package.json; then
+  echo "🧪 Running tests..."
+  npm test
+fi
+
+# Check for uncommitted changes after codegen
+if ! git diff --quiet; then
+  echo "❌ Uncommitted changes detected. Please commit generated files."
+  echo "Run: git add . && git commit -m 'chore: update generated files'"
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed!"

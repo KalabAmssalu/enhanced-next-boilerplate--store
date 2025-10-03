@@ -1,0 +1,734 @@
+# GraphQL Schema for Enterprise Application
+
+# Scalar Types
+scalar Date
+scalar JSON
+scalar Upload
+
+# Enums
+enum UserRole {
+  ADMIN
+  MANAGER
+  USER
+  GUEST
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum ShippingStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+enum AnalyticsPeriod {
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  QUARTER
+  YEAR
+}
+
+enum ProductSort {
+  NAME_ASC
+  NAME_DESC
+  PRICE_ASC
+  PRICE_DESC
+  RATING_ASC
+  RATING_DESC
+  CREATED_ASC
+  CREATED_DESC
+}
+
+# Input Types
+input CreateUserInput {
+  email: String!
+  password: String!
+  name: String!
+  role: UserRole = USER
+  profile: CreateProfileInput
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  role: UserRole
+  profile: UpdateProfileInput
+}
+
+input CreateProfileInput {
+  avatar: String
+  bio: String
+  location: String
+  socialLinks: [SocialLinkInput!]
+}
+
+input UpdateProfileInput {
+  avatar: String
+  bio: String
+  location: String
+  socialLinks: [SocialLinkInput!]
+}
+
+input SocialLinkInput {
+  platform: String!
+  url: String!
+}
+
+input UpdatePreferencesInput {
+  theme: String
+  language: String
+  notifications: JSON
+}
+
+input UserFilter {
+  role: UserRole
+  search: String
+  isActive: Boolean
+}
+
+input CreateProductInput {
+  name: String!
+  description: String!
+  price: Float!
+  category: String!
+  images: [String!]
+  inStock: Int = 0
+  specifications: [SpecificationInput!]
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: Float
+  category: String
+  images: [String!]
+  inStock: Int
+  specifications: [SpecificationInput!]
+}
+
+input SpecificationInput {
+  key: String!
+  value: String!
+}
+
+input ProductFilters {
+  category: String
+  priceMin: Float
+  priceMax: Float
+  inStock: Boolean
+  rating: Float
+}
+
+input CreateOrderInput {
+  items: [OrderItemInput!]!
+  shippingAddress: AddressInput!
+  paymentMethod: String!
+}
+
+input OrderItemInput {
+  productId: ID!
+  quantity: Int!
+  price: Float!
+}
+
+input AddOrderItemInput {
+  productId: ID!
+  quantity: Int!
+  price: Float!
+}
+
+input AddressInput {
+  street: String!
+  city: String!
+  state: String!
+  zipCode: String!
+  country: String!
+}
+
+input CreateReviewInput {
+  productId: ID!
+  rating: Int!
+  comment: String
+}
+
+input UpdateReviewInput {
+  rating: Int
+  comment: String
+}
+
+input CreateCategoryInput {
+  name: String!
+  description: String
+  parentId: ID
+}
+
+input UpdateCategoryInput {
+  name: String
+  description: String
+  parentId: ID
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input UpdateAppSettingsInput {
+  theme: String
+  language: String
+  currency: String
+  timezone: String
+  features: [FeatureInput!]
+}
+
+input FeatureInput {
+  name: String!
+  enabled: Boolean!
+}
+
+# Types
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  role: UserRole!
+  isActive: Boolean!
+  createdAt: Date!
+  updatedAt: Date!
+  profile: Profile
+  preferences: UserPreferences
+}
+
+type Profile {
+  avatar: String
+  bio: String
+  location: String
+  socialLinks: [SocialLink!]
+}
+
+type SocialLink {
+  platform: String!
+  url: String!
+}
+
+type UserPreferences {
+  theme: String
+  language: String
+  notifications: JSON
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  category: String!
+  images: [String!]
+  inStock: Int!
+  rating: Float
+  reviews: [Review!]
+  specifications: [Specification!]
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Specification {
+  key: String!
+  value: String!
+}
+
+type Review {
+  id: ID!
+  rating: Int!
+  comment: String
+  product: Product!
+  user: User!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Order {
+  id: ID!
+  orderNumber: String!
+  status: OrderStatus!
+  total: Float!
+  items: [OrderItem!]!
+  shippingAddress: Address!
+  paymentMethod: String
+  trackingNumber: String
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type OrderItem {
+  id: ID!
+  product: Product!
+  quantity: Int!
+  price: Float!
+}
+
+type Address {
+  street: String!
+  city: String!
+  state: String!
+  zipCode: String!
+  country: String!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String
+  slug: String!
+  parentId: ID
+  children: [Category!]
+  productCount: Int!
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  slug: String!
+  usageCount: Int!
+}
+
+type Notification {
+  id: ID!
+  title: String!
+  message: String!
+  type: NotificationType!
+  read: Boolean!
+  actionUrl: String
+  createdAt: Date!
+}
+
+type AppSettings {
+  theme: String!
+  language: String!
+  currency: String!
+  timezone: String!
+  features: [Feature!]!
+  integrations: [Integration!]!
+}
+
+type Feature {
+  name: String!
+  enabled: Boolean!
+}
+
+type Integration {
+  name: String!
+  enabled: Boolean!
+  config: JSON
+}
+
+type AuthPayload {
+  token: String!
+  refreshToken: String!
+  user: User!
+}
+
+type MutationResult {
+  success: Boolean!
+  message: String
+}
+
+type SalesAnalytics {
+  totalSales: Float!
+  totalOrders: Int!
+  averageOrderValue: Float!
+  topProducts: [ProductSales!]!
+  salesByPeriod: [PeriodSales!]!
+}
+
+type ProductSales {
+  product: Product!
+  quantity: Int!
+  revenue: Float!
+}
+
+type PeriodSales {
+  period: String!
+  sales: Float!
+  orders: Int!
+}
+
+type UserAnalytics {
+  totalUsers: Int!
+  newUsers: Int!
+  activeUsers: Int!
+  userGrowth: [UserGrowth!]!
+  userSegments: [UserSegment!]!
+}
+
+type UserGrowth {
+  period: String!
+  count: Int!
+}
+
+type UserSegment {
+  segment: String!
+  count: Int!
+  percentage: Float!
+}
+
+type DashboardStats {
+  totalUsers: Int!
+  totalProducts: Int!
+  totalOrders: Int!
+  totalRevenue: Float!
+  recentOrders: [Order!]!
+  topProducts: [ProductSales!]!
+  salesChart: [PeriodSales!]!
+}
+
+type SearchResult {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  category: String!
+  images: [String!]
+  inStock: Int!
+  rating: Float
+  highlights: [SearchHighlight!]
+}
+
+type SearchHighlight {
+  field: String!
+  value: String!
+}
+
+type FileUpload {
+  id: ID!
+  filename: String!
+  url: String!
+  size: Int!
+  mimeType: String!
+  uploadedAt: Date!
+}
+
+type BulkOperationResult {
+  success: Boolean!
+  updatedCount: Int
+  deletedCount: Int
+  errors: [BulkError!]
+}
+
+type BulkError {
+  id: ID!
+  message: String!
+}
+
+# Root Types
+type Query {
+  # User queries
+  users(limit: Int, offset: Int, filter: UserFilter): [User!]!
+  user(id: ID!): User
+  me: User
+  searchUsers(query: String!, role: UserRole): [User!]!
+
+  # Product queries
+  products(
+    limit: Int
+    offset: Int
+    category: String
+    search: String
+  ): [Product!]!
+  product(id: ID!): Product
+  searchProducts(
+    query: String!
+    filters: ProductFilters
+    sort: ProductSort
+  ): [SearchResult!]!
+
+  # Order queries
+  orders(limit: Int, offset: Int, status: OrderStatus, userId: ID): [Order!]!
+  order(id: ID!): Order
+
+  # Category and tag queries
+  categories: [Category!]!
+  tags(limit: Int): [Tag!]!
+
+  # Analytics queries
+  salesAnalytics(
+    period: AnalyticsPeriod!
+    startDate: String
+    endDate: String
+  ): SalesAnalytics
+  userAnalytics(period: AnalyticsPeriod!): UserAnalytics
+  dashboardStats: DashboardStats
+
+  # Notification queries
+  notifications(limit: Int, unreadOnly: Boolean): [Notification!]!
+
+  # Settings queries
+  appSettings: AppSettings
+
+  # Health check
+  healthCheck: String!
+}
+
+type Mutation {
+  # User mutations
+  createUser(input: CreateUserInput!): User!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): MutationResult!
+  updateProfile(input: UpdateProfileInput!): User!
+  changePassword(
+    currentPassword: String!
+    newPassword: String!
+  ): MutationResult!
+
+  # Authentication mutations
+  login(email: String!, password: String!): AuthPayload!
+  register(input: RegisterInput!): AuthPayload!
+  logout: MutationResult!
+  refreshToken(refreshToken: String!): AuthPayload!
+  forgotPassword(email: String!): MutationResult!
+  resetPassword(token: String!, newPassword: String!): MutationResult!
+
+  # Product mutations
+  createProduct(input: CreateProductInput!): Product!
+  updateProduct(id: ID!, input: UpdateProductInput!): Product!
+  deleteProduct(id: ID!): MutationResult!
+  uploadProductImage(productId: ID!, file: Upload!): Product!
+
+  # Order mutations
+  createOrder(input: CreateOrderInput!): Order!
+  updateOrderStatus(id: ID!, status: OrderStatus!): Order!
+  cancelOrder(id: ID!, reason: String): MutationResult!
+  addOrderItem(orderId: ID!, input: AddOrderItemInput!): Order!
+  removeOrderItem(orderId: ID!, itemId: ID!): Order!
+
+  # Review mutations
+  createReview(input: CreateReviewInput!): Review!
+  updateReview(id: ID!, input: UpdateReviewInput!): Review!
+  deleteReview(id: ID!): MutationResult!
+
+  # Category mutations
+  createCategory(input: CreateCategoryInput!): Category!
+  updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+  deleteCategory(id: ID!): MutationResult!
+
+  # Notification mutations
+  markNotificationRead(id: ID!): Notification!
+  markAllNotificationsRead: MutationResult!
+  deleteNotification(id: ID!): MutationResult!
+
+  # Settings mutations
+  updatePreferences(input: UpdatePreferencesInput!): User!
+  updateAppSettings(input: UpdateAppSettingsInput!): AppSettings!
+
+  # File upload mutations
+  uploadFile(file: Upload!, folder: String): FileUpload!
+  deleteFile(id: ID!): MutationResult!
+
+  # Bulk operations
+  bulkUpdateProducts(
+    ids: [ID!]!
+    input: UpdateProductInput!
+  ): BulkOperationResult!
+  bulkDeleteProducts(ids: [ID!]!): BulkOperationResult!
+}
+
+type Subscription {
+  # User subscriptions
+  userUpdated(userId: ID): User!
+  userOnlineStatus(userIds: [ID!]): UserOnlineStatus!
+
+  # Order subscriptions
+  orderStatusChanged(orderId: ID): Order!
+  newOrderCreated: Order!
+
+  # Product subscriptions
+  productStockUpdated(productId: ID): Product!
+  productPriceChanged(productId: ID): ProductPriceChange!
+
+  # Review subscriptions
+  newReviewAdded(productId: ID): Review!
+  reviewUpdated(reviewId: ID): Review!
+
+  # Notification subscriptions
+  notificationReceived(userId: ID): Notification!
+  notificationUpdated(notificationId: ID): Notification!
+
+  # Analytics subscriptions
+  salesMetricsUpdated(period: AnalyticsPeriod!): SalesAnalytics!
+  userActivityUpdated: UserActivity!
+
+  # Chat subscriptions
+  messageReceived(chatId: ID): Message!
+  chatTyping(chatId: ID): TypingStatus!
+
+  # System subscriptions
+  systemStatusUpdated: SystemStatus!
+  serverHealthUpdated: ServerHealth!
+
+  # Inventory subscriptions
+  inventoryLowStock: InventoryAlert!
+  inventoryUpdated(productId: ID): InventoryUpdate!
+
+  # Payment subscriptions
+  paymentStatusUpdated(orderId: ID): PaymentUpdate!
+  paymentFailed(orderId: ID): PaymentFailure!
+
+  # Shipping subscriptions
+  shippingStatusUpdated(orderId: ID): ShippingUpdate!
+  deliveryConfirmed(orderId: ID): DeliveryConfirmation!
+
+  # Admin subscriptions
+  adminDashboardUpdated: DashboardStats!
+  securityAlert: SecurityAlert!
+}
+
+# Additional types for subscriptions
+type UserOnlineStatus {
+  userId: ID!
+  isOnline: Boolean!
+  lastSeen: Date!
+}
+
+type ProductPriceChange {
+  id: ID!
+  name: String!
+  price: Float!
+  previousPrice: Float!
+  updatedAt: Date!
+}
+
+type UserActivity {
+  userId: ID!
+  activity: String!
+  timestamp: Date!
+  metadata: JSON
+}
+
+type Message {
+  id: ID!
+  content: String!
+  sender: User!
+  chatId: ID!
+  timestamp: Date!
+  type: String!
+}
+
+type TypingStatus {
+  userId: ID!
+  userName: String!
+  isTyping: Boolean!
+  timestamp: Date!
+}
+
+type SystemStatus {
+  status: String!
+  message: String!
+  timestamp: Date!
+  services: [ServiceStatus!]!
+}
+
+type ServiceStatus {
+  name: String!
+  status: String!
+  responseTime: Int!
+  lastCheck: Date!
+}
+
+type ServerHealth {
+  status: String!
+  uptime: Int!
+  memoryUsage: Float!
+  cpuUsage: Float!
+  activeConnections: Int!
+  timestamp: Date!
+}
+
+type InventoryAlert {
+  product: Product!
+  currentStock: Int!
+  minimumStock: Int!
+  alertLevel: String!
+  timestamp: Date!
+}
+
+type InventoryUpdate {
+  product: Product!
+  quantity: Int!
+  operation: String!
+  reason: String!
+  timestamp: Date!
+}
+
+type PaymentUpdate {
+  orderId: ID!
+  paymentId: ID!
+  status: PaymentStatus!
+  amount: Float!
+  currency: String!
+  method: String!
+  timestamp: Date!
+}
+
+type PaymentFailure {
+  orderId: ID!
+  paymentId: ID!
+  error: String!
+  retryCount: Int!
+  timestamp: Date!
+}
+
+type ShippingUpdate {
+  orderId: ID!
+  trackingNumber: String!
+  status: ShippingStatus!
+  location: String!
+  estimatedDelivery: Date
+  timestamp: Date!
+}
+
+type DeliveryConfirmation {
+  orderId: ID!
+  deliveredAt: Date!
+  recipient: String!
+  signature: String
+  timestamp: Date!
+}
+
+type SecurityAlert {
+  id: ID!
+  type: String!
+  severity: String!
+  message: String!
+  source: String!
+  timestamp: Date!
+  resolved: Boolean!
+}

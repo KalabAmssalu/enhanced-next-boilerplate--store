@@ -22,6 +22,7 @@
     "monitoring/default",
     "performance/default",
     "documentation/default",
-    "infrastructure/default"
+    "infrastructure/default",
+    "logging-enhanced/default"
   ]
 }

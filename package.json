@@ -1,37 +1,45 @@
 {
-    "name": "@next-boilerplate/store",
-    "private": false,
-    "publishConfig": {
-        "access": "public"
-    },
-    "version": "0.0.0",
-    "files": [
-        "plugins",
-        "templates"
-    ],
-    "scripts": {},
-    "homepage": "https://github.com/rharkor/next-boilerplate--store",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/rharkor/next-boilerplate--store.git"
-    },
-    "keywords": [
-        "nextjs",
-        "boilerplate",
-        "typescript",
-        "monorepo"
-    ],
-    "author": "HUORT Louis (https://louis.huort.com)",
-    "devDependencies": {
-        "@semantic-release/changelog": "^6.0.3",
-        "@semantic-release/commit-analyzer": "^13.0.0",
-        "@semantic-release/git": "^10.0.1",
-        "@semantic-release/github": "^10.0.0",
-        "@semantic-release/npm": "^12.0.0",
-        "@semantic-release/release-notes-generator": "^14.0.0",
-        "conventional-changelog-conventionalcommits": "^8.0.0",
-        "semantic-release": "^24.0.0"
-    },
-    "license": "MIT",
-    "packageManager": "npm@10.8.3"
+  "name": "@kalabamssalu/enhanced-next-boilerplate--store",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "version": "0.0.2",
+  "files": [
+    "plugins",
+    "templates",
+    "dist"
+  ],
+  "scripts": {
+    "build": "mkdir dist 2>nul || echo. && copy src\\cli.js dist\\cli.js",
+    "start": "node dist/cli.js"
+  },
+  "bin": {
+    "kalab-boilerplate": "./dist/cli.js"
+  },
+  "homepage": "https://github.com/KalabAmssalu/enhanced-next-boilerplate--store",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KalabAmssalu/enhanced-next-boilerplate--store.git"
+  },
+  "keywords": [
+    "nextjs",
+    "boilerplate",
+    "typescript",
+    "monorepo"
+  ],
+  "author": "KalabAmssalu (https://github.com/KalabAmssalu)",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.0",
+    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/release-notes-generator": "^14.0.0",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "semantic-release": "^24.0.0"
+  },
+  "license": "MIT",
+  "packageManager": "npm@10.8.3"
 }
